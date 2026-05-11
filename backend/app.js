@@ -2,8 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import userRoute from "./routes/auth.routes.js";
-import blogRoute from "./routes/blog.routes.js";
+import userRoute from "./routes/auth.route.js";
+import blogRoute from "./routes/blog.route.js";
+import cors from "cors"
 
 dotenv.config();
 mongoose
@@ -15,13 +16,17 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
 
 app.get("/", (req, res) => {
   res.send("Api is running");
 });
 
-app.use("/user", userRoute)
-app.use("/blog", blogRoute)
+app.use("/user", userRoute);
+app.use("/blog", blogRoute);
 
 const PORT = process.env.PORT || 3000;
 
