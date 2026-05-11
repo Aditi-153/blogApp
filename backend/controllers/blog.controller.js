@@ -40,14 +40,14 @@ export const getBlogOfUser = async (req, res) => {
 
     const blogs = await Blog.find({ author: userId });
 
-    if (!blogs || blogs.length === 0) {
+    if (!blogs) {
       return res.status(404).json({
         message: "no blogs found for this user",
       });
     }
     return res.status(200).json({
       message: "blog found sucessfully",
-      blog,
+      blogs,
     });
   } catch (error) {
     return res.status(500).json({
