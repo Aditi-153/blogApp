@@ -1,27 +1,7 @@
-import { useEffect, useState } from "react";
-
 const Home = () => {
-  const [blogs, setBlogs] = useState([]);
-
-  // 🔥 Fetch blogs from backend
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/api/blogs");
-        const data = await res.json();
-        setBlogs(data);
-      } catch (error) {
-        console.log("Error fetching blogs:", error);
-      }
-    };
-
-    fetchBlogs();
-  }, []);
-
+  
   return (
     <div className="bg-amber-50 min-h-screen">
-      
-      {/* 🔝 Navbar */}
       <nav className="bg-red-950 text-white px-10 py-4 flex justify-between items-center shadow-lg">
         <h1 className="text-xl font-bold text-red-500">BlogStack</h1>
 
@@ -31,12 +11,9 @@ const Home = () => {
           <a href="#">Categories</a>
         </div>
 
-        <button className="bg-red-800 px-4 py-2 rounded-full">
-          Write
-        </button>
+        <button className="bg-red-800 px-4 py-2 rounded-full">Write</button>
       </nav>
 
-      {/* 🌟 Hero */}
       <section className="text-center py-16 px-4">
         <h1 className="text-4xl font-bold text-red-950 mb-4">
           Share Your Thoughts With The World ✍️
@@ -51,43 +28,59 @@ const Home = () => {
         </button>
       </section>
 
-      {/* 📰 Blog Grid */}
       <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6 px-6 md:px-10 py-10">
-        {blogs.length === 0 ? (
-          <p className="text-center col-span-3 text-gray-500">
-            No blogs found...
-          </p>
-        ) : (
-          blogs.map((blog) => (
-            <div
-              key={blog._id}
-              className="bg-white rounded-xl shadow-lg overflow-hidden"
-            >
-              <img
-                src={blog.img}
-                alt="blog"
-                className="w-full h-40 object-cover"
-              />
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <img
+            src="https://via.placeholder.com/400x200"
+            alt="blog"
+            className="w-full h-40 object-cover"
+          />
+          <div className="p-4">
+            <h3 className="font-bold text-red-950 text-lg mb-2">
+              Sample Blog Title
+            </h3>
+            <p className="text-sm text-gray-600 mb-3">
+              This is a sample blog description to show UI layout.
+            </p>
+            <span className="text-xs text-gray-500">By Author Name</span>
+          </div>
+        </div>
 
-              <div className="p-4">
-                <h3 className="font-bold text-red-950 text-lg mb-2">
-                  {blog.title}
-                </h3>
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <img
+            src="https://via.placeholder.com/400x200"
+            alt="blog"
+            className="w-full h-40 object-cover"
+          />
+          <div className="p-4">
+            <h3 className="font-bold text-red-950 text-lg mb-2">
+              Another Blog Title
+            </h3>
+            <p className="text-sm text-gray-600 mb-3">
+              UI preview card without backend logic.
+            </p>
+            <span className="text-xs text-gray-500">By John Doe</span>
+          </div>
+        </div>
 
-                <p className="text-sm text-gray-600 mb-3">
-                  {blog.desc}
-                </p>
-
-                <span className="text-xs text-gray-500">
-                  By {blog.author}
-                </span>
-              </div>
-            </div>
-          ))
-        )}
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <img
+            src="https://via.placeholder.com/400x200"
+            alt="blog"
+            className="w-full h-40 object-cover"
+          />
+          <div className="p-4">
+            <h3 className="font-bold text-red-950 text-lg mb-2">
+              UI Only Blog Card
+            </h3>
+            <p className="text-sm text-gray-600 mb-3">
+              Replace with dynamic data later.
+            </p>
+            <span className="text-xs text-gray-500">By Admin</span>
+          </div>
+        </div>
       </div>
 
-      {/* 🔻 Footer */}
       <footer className="bg-red-950 text-white text-center py-6 mt-10">
         <p className="text-sm opacity-70">
           © 2026 BlogStack • All rights reserved
