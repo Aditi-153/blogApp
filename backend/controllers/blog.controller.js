@@ -2,7 +2,7 @@ import Blog from "../models/blog.model";
 
 export const createBlog = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, image, category } = req.body;
 
     if (!title || !content) {
       return res.status(400).json({
@@ -10,9 +10,15 @@ export const createBlog = async (req, res) => {
       });
     }
 
+    if (!req.user || !req.user._id) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
     const blog = await Blog.create({
       title,
       content,
+      image,
+      category,
       author: req.user._id,
     });
 
@@ -32,11 +38,11 @@ export const getBlogOfUser = async (req, res) => {
   try {
     const userId = req.params.id;
 
-    const blog = await Blog.findById(userId);
+    const blogs = await Blog.find({ author: userId });
 
-    if (!blog) {
-      return res.status(400).json({
-        message: "blog not found",
+    if (!blogs || blogs.length === 0) {
+      return res.status(404).json({
+        message: "no blogs found for this user",
       });
     }
     return res.status(200).json({
@@ -51,7 +57,7 @@ export const getBlogOfUser = async (req, res) => {
   }
 };
 
-export const getllBlogs = async (req, res) => {
+export const getAllBlogs = async (req, res) => {
   try {
     const getBlog = await Blog.find();
 
@@ -93,14 +99,14 @@ export const getBlogById = async (req, res) => {
 
 export const updateBlog = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, image, category } = req.body;
 
     const blogId = req.params.id;
 
     const updatedblog = await Blog.findByIdAndUpdate(
       blogId,
-      { title, content },
-      { returnDocument: true, runValidators: true },
+      { title, content, image, category },
+      { new: true, runValidators: true },
     );
 
     return res.status(200).json({
@@ -137,4 +143,3 @@ export const deleteBlog = async (req, res) => {
     });
   }
 };
-
