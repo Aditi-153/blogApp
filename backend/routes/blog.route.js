@@ -1,4 +1,5 @@
 import express from "express";
+import upload from "../middleware/upload.middleware";
 
 import {
   createBlog,
@@ -13,7 +14,7 @@ import { userProtect } from "../middleware/user.middleware";
 const router = express.Router();
 
 //create new blog
-router.post("/create-blog", userProtect, createBlog);
+router.post("/create-blog", userProtect,upload.single("image"), createBlog);
 
 //get all blog of specific user(author id)
 router.get("/get-user-blog/:id", userProtect, getBlogOfUser);
@@ -25,7 +26,7 @@ router.get("/blogs", userProtect, getAllBlogs);
 router.get("/get-blog/:id", userProtect, getBlogById);
 
 //update blog by id (id)
-router.patch("/edit-blog/:id", userProtect, updateBlog);
+router.patch("/edit-blog/:id", userProtect,upload.single("image"), updateBlog);
 
 //delete blog by id 
 router.delete("/delete-blog/:id", userProtect, deleteBlog);

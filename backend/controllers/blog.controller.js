@@ -1,12 +1,13 @@
 import Blog from "../models/blog.model";
+import uploadFile from "../services/storage.service";
 
 export const createBlog = async (req, res) => {
   try {
-    const { title, content, image, category } = req.body;
+    const { title, content, category, image } = req.body;
 
     if (!title || !content) {
       return res.status(400).json({
-        message: " fields are empty",
+        message: "fields are empty",
       });
     }
 
@@ -14,16 +15,25 @@ export const createBlog = async (req, res) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
+    let imageUrl = "";
+
+    if (req.file) {
+      imageUrl = await uploadFile(req.file);
+    } 
+    else if (image) {
+      imageUrl = image;
+    }
+
     const blog = await Blog.create({
       title,
       content,
-      image,
+      image: imageUrl,
       category,
       author: req.user._id,
     });
 
     return res.status(201).json({
-      message: "blog created sucessfully",
+      message: "blog created successfully",
       blog,
     });
   } catch (error) {
@@ -40,7 +50,7 @@ export const getBlogOfUser = async (req, res) => {
 
     const blogs = await Blog.find({ author: userId });
 
-    if (!blogs) {
+    if (blogs.length ===0) {
       return res.status(404).json({
         message: "no blogs found for this user",
       });
