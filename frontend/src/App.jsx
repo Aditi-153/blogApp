@@ -12,7 +12,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/createBlog" element={<CreateBlog />} />
+        <Route path="/create" element={<CreateBlog />} />
       </Routes>
       <Toaster position="top-center" reverseOrder={false} />
     </BrowserRouter>
